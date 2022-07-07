@@ -1,0 +1,75 @@
+mapper:
+  map_name: 'potsdam'
+  map_boundary: [6000, 6000] # [w, h] pixel
+  ground_resolution: [0.15, 0.15]
+  class_number: 7
+
+simulator:
+  name: 'potsdam'
+
+  ###------ potsdam simulator ------###
+  potsdam:
+    # path_to_orthomosaic: /home/masha/Documents/Datasets/orthomosaics/potsdam/RGB
+    # path_to_anno: /home/masha/Documents/Datasets/orthomosaics/potsdam/Labels
+    path_to_orthomosaic: worlds/RGB
+    path_to_anno: worlds/Labels
+    # -----------------------  
+    # please refer to https://www2.isprs.org/commissions/comm2/wg4/benchmark/2d-sem-label-potsdam/
+    # -----------------------  
+    orth_tile_list: [['2_10', '2_11', '2_12'],
+                     ['3_10', '3_11', '3_12'],
+                     ['4_10', '4_11', '4_12']]
+    resize_flag: true
+    resize: [2000, 2000] # [w, h] pixel
+    gsd: 0.15 # original tile has 6000 x 6000 with 0.05 meter/pixel gsd
+    world_range: [6000, 6000] # [w, h] pixel
+    sensor:
+      resolution: [400, 400] # [w, h] pixel
+      angle: [45, 45] # [w, h] degree
+    
+  ###------ rit18 simulator ------###
+  rit18:
+    path_to_orthomosaic: /home/masha/Documents/Datasets/orthomosaics/rit18/rit18-train.png
+    #path_to_orthomosaic: worlds/rit18-train.png
+    resize_flag: false
+    resize: [2000, 2000] # [w, h] pixel
+    gsd: 0.047
+    world_range: [3257, 7091] # [w, h] pixel
+    sensor:
+      resolution: [480, 360] # pixel
+      angle: [47.2, 35.4] # degree
+
+  ###------ weedmap simulator ------###
+  weedmap:
+    path_to_orthomosaic: /dataset/orthomosaic/weedmap/weedmap_orthomosaic
+    resize_flag: false
+    resize: [2000, 2000] # [w, h] pixel
+    gsd: 0.05
+    world_range: [1225, 366] # [w, h] pixel
+    sensor:
+      resolution: [300, 300] # pixel
+      angle: [22.78, 17.07] # degree
+
+network:
+  path_to_config: bayesian_erfnet/agri_semantics/config/potsdam.yaml
+  path_to_checkpoint: bayesian_erfnet/agri_semantics/models/pretrained/erfnet_all_05_cityscapes.ckpt
+  aleatoric_model: false
+  num_mc_epistemic: 50
+
+planner:
+  num_missions: 10
+  budget: 1800.0
+  type: "receding_horizon"
+  altitude: 30.0
+  step_size: 50.0
+  step_sizes: [30.0, 50.0, 70.0]
+  lattice_step_size: 40.0
+  horizon_length: 5
+  max_iter: 45
+  population_size: 12
+  sigma0: [30, 30, 0.01]
+  edge_width: 10
+  frontier_step_size: 100
+  uav_specifications:
+    max_v: 2.0
+    max_a: 2.0
