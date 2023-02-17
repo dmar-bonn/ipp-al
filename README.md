@@ -64,8 +64,8 @@ labelling effort.
 
 1. Clone repo and initialize submodules:
 ```commandline
-git clone git@github.com:juliusrueckin/active_learning_ipp.git
-cd active_learning_ipp
+git clone git@github.com:dmar-bonn/ipp-al.git
+cd ipp-al
 git submodule update --init
 pip3 install -r requirements.txt
 ```
